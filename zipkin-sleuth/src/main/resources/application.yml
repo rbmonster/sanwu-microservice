@@ -1,0 +1,27 @@
+#Setting logging levels
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.thoughtmechanix: DEBUG
+
+server:
+  servlet:
+    context-path: /zipkin
+  port: 9411
+
+#spring:
+#  main:
+#    allow-bean-definition-overriding: true
+spring:
+  main:
+    #解决The bean 'characterEncodingFilter', defined in class path resource [zipkin/autoconfigure/ui/ZipkinUiAutoConfiguration.class], could not be registered. A bean with that name has already been defined in class path resource [org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration.class] and overriding is disabled.Action:
+    allow-bean-definition-overriding: true
+
+management:
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: false

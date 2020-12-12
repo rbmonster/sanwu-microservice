@@ -1,0 +1,6 @@
+dy:
+  name: hehe
+
+server:
+  servlet:
+    context-path: /auth

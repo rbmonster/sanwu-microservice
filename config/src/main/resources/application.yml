@@ -1,0 +1,29 @@
+
+#spring:
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/rbmonster/sanwu-microservice/tree/master/config
+#          searchPaths: respo
+#          username:
+#          password:
+#          default-label: master
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: composite
+  cloud:
+    config:
+      server:
+        composite:
+          - type: native
+            search-locations: classpath:/shared
+        bootstrap: true
+  security:
+    user:
+      password: ${CONFIG_SERVICE_PASSWORD}
+
+server:
+  port: 8888
