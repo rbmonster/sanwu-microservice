@@ -13,8 +13,6 @@ spring:
       username: user
 
 
-server:
-  port: 8090
 
 #eureka:
 #  instance:

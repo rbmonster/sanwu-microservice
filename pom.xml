@@ -14,8 +14,7 @@
         <module>config</module>
         <module>organization</module>
         <module>authentication</module>
-        <module>gateway</module>
-        <module>zipkin-sleuth</module>
+        <module>zuul</module>
     </modules>
 
     <parent>

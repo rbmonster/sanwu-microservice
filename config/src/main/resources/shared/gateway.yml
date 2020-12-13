@@ -15,19 +15,40 @@ zuul:
   host:
     connect-timeout-millis: 20000
     socket-timeout-millis: 20000
-
   routes:
     authentication:
         path: /auth/**
         serviceId: authentication
         stripPrefix: false
         sensitiveHeaders: Cookie,Set-Cookie
-
     organization:
         path: /organization/**
         serviceId: organization
         stripPrefix: false
         sensitiveHeaders:
+  ratelimit:
+    enabled: true
+    repository: JPA #key存储类型，默认是IN_MEMORY本地内存，此外还有多种形式
+    behind-proxy: true
+    default-policy-list: #optional - will apply unless specific policy exists
+      - limit: 10 #optional - request number limit per refresh interval window
+        quota: 1000 #optional - request time limit per refresh interval window (in seconds)
+        refresh-interval: 60 #default value (in seconds)
+        type: #optional
+          - user
+          - origin
+          - url
+          - http_method
+    policy-list:
+      authentication:
+        - limit: 5
+          quota: 30
+          refresh-interval: 60
+          type:
+            - user
+            - origin
+            - url
+            - http_method
 
 server:
   port: 4000

@@ -19,9 +19,11 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableDiscoveryClient
-public class GatewayApplication {
+// 导致正常的网关过滤器失效
+//@ServletComponentScan
+public class ZuulApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GatewayApplication.class);
+        SpringApplication.run(ZuulApplication.class);
     }
 }

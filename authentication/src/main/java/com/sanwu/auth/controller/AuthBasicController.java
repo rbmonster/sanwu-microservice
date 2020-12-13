@@ -3,6 +3,8 @@ package com.sanwu.auth.controller;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.netflix.ribbon.proxy.annotation.Hystrix;
+import com.sanwu.auth.client.OrganizationClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2020/12/12 18:33
  */
 @RestController
-@RequestMapping("/auth")
 public class AuthBasicController {
 
     @HystrixCommand(fallbackMethod = "authInfoFallback", threadPoolKey = "authInfo",
@@ -46,4 +47,13 @@ public class AuthBasicController {
     public String authInfoFallback() {
         return "fallback";
     }
+
+    @Autowired
+    OrganizationClient organizationClient;
+
+    @GetMapping("/cross2Organization")
+    public String crossService(String organizationId) {
+        return organizationClient.organization(organizationId);
+    }
+
 }

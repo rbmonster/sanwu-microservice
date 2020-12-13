@@ -1,38 +1,10 @@
-<a name="index">**Index**</a>
-
-<a href="#0">Spring cloud 基于Netflix</a>  
-&emsp;<a href="#1">1. 基础知识</a>  
-<a href="#2">config 配置中心</a>  
-&emsp;<a href="#3">1. 基本配置</a>  
-&emsp;&emsp;<a href="#4">1.1. 配置中心应用</a>  
-&emsp;&emsp;<a href="#5">1.2. 基本使用</a>  
-&emsp;&emsp;<a href="#6">1.3. 客户端应用</a>  
-&emsp;<a href="#7">2. 功能</a>  
-&emsp;&emsp;<a href="#8">2.1. 刷新配置@RefreshScope</a>  
-&emsp;&emsp;<a href="#9">2.2. spring cloud应用刷新配置</a>  
-&emsp;&emsp;<a href="#10">2.3. 密码加密</a>  
-&emsp;&emsp;&emsp;<a href="#11">2.3.1. 加密认证说明</a>  
-<a href="#12">eureka 注册中心</a>  
-&emsp;<a href="#13">1. 基本配置</a>  
-&emsp;&emsp;<a href="#14">1.1. 客户端</a>  
-<a href="#15">netflix hystrix与OpenFeign客户端方法断路器</a>  
-&emsp;<a href="#16">1. netflix hystrix</a>  
-&emsp;&emsp;<a href="#17">1.1. 基础</a>  
-&emsp;&emsp;<a href="#18">1.2. 定时中断</a>  
-&emsp;&emsp;<a href="#19">1.3. 后备处理</a>  
-&emsp;&emsp;<a href="#20">1.4. 舱壁模式</a>  
-&emsp;<a href="#21">2. OpenFeign</a>  
-&emsp;&emsp;<a href="#22">2.1. 基本配置</a>  
-<a href="#23">Spring netflix zuul 网关</a>  
-&emsp;<a href="#24">1. 过滤器</a>  
-&emsp;<a href="#25">2. 限流</a>  
-# <a name="0">Spring cloud 基于Netflix</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+# Spring cloud 基于Netflix
 工程启动顺序：
 1. config
 2. eureka
 3. organization、Auth、zuul
 
-## <a name="1">基础知识</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+## 基础知识
 spring cloud 使用一个发行版的方式进行版本发布，目前有三个版本Angel、Brixton和Camden
 ```
   <dependencyManagement>
@@ -49,11 +21,11 @@ spring cloud 使用一个发行版的方式进行版本发布，目前有三个�
 ```
 spring-cloud-dependency与spring-boot-parent 版本对应：
 - https://start.spring.io/actuator/info
-# <a name="2">config 配置中心</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+# config 配置中心
 
-## <a name="3">基本配置</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+## 基本配置
 
-### <a name="4">配置中心应用</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 配置中心应用
 maven版本
 ```
     <dependency>
@@ -105,12 +77,12 @@ spring:
     name: configserver
 
 ```
-### <a name="5">基本使用</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 基本使用
 直接访问
 - `http://localhost:8888/licensingservice/default`
 - `http://localhost:8888/{folder}/{version}`
 
-### <a name="6">客户端应用</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 客户端应用
 添加maven
 ```
 <dependency>
@@ -137,9 +109,9 @@ spring:
 
 ```
 
-## <a name="7">功能</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+## 功能
 
-### <a name="8">刷新配置@RefreshScope</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 刷新配置@RefreshScope
 普通的spring boot 可以通过访问 http://localhost:8080/refresh 刷新配置
 ```
 @SpringBootApplication
@@ -154,12 +126,12 @@ public class ConfigServerApplication { }
 </dependency>
 ```
 
-### <a name="9">spring cloud应用刷新配置</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### spring cloud应用刷新配置
 
 1. 使用spring cloud bus 的推送机制。
 2. 使用Eureka，可以使用脚本调用每个服务节点的/refresh 方法。
 
-### <a name="10">密码加密</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 密码加密
 安装Oracle JCE jar
 
 配置中心通过post请求加密解密：
@@ -171,13 +143,13 @@ public class ConfigServerApplication { }
 2. 客户端设置对应秘钥
 3. 加入maven  
 
-#### <a name="11">加密认证说明</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+#### 加密认证说明
 1. 可以使用spring security作为认证的方式。
 2. 可以使用非对称加密的方式认证。
 3. 使用云服务如git 云认证。
 
 
-# <a name="12">eureka 注册中心</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+# eureka 注册中心
 1. 服务注册
 2. 服务地址的客户端查找
 3. 信息共享
@@ -185,7 +157,7 @@ public class ConfigServerApplication { }
 
 访问地址：http://localhost:8761/
 
-## <a name="13">基本配置</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+## 基本配置
 - maven 配置
 ```
 <dependency>
@@ -201,13 +173,13 @@ public class ConfigServerApplication { }
 注解@EnableEurekaServer 声明是个注册中心
 
 
-### <a name="14">客户端</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 客户端
 @EnableDiscoveryClient 开启服务注册
 
-# <a name="15">netflix hystrix与OpenFeign客户端方法断路器</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+# netflix hystrix与OpenFeign客户端方法断路器
 
-## <a name="16">netflix hystrix</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
-### <a name="17">基础</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+## netflix hystrix
+### 基础
 1. @EnableCircuitBreaker 开启断路器
 2. maven 依赖
    - ``` 
@@ -216,7 +188,7 @@ public class ConfigServerApplication { }
          <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
      </dependency>
      ```
-### <a name="18">定时中断</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 定时中断
 @HystrixCommand 标记方法使用断路器管理
 > 断路器将包装方法的调用，默认调用时间超过1000ms时，中断调用抛出HystrixRuntimeException的异常。
 
@@ -228,7 +200,7 @@ public class ConfigServerApplication { }
 	}
 )
 ```
-### <a name="19">后备处理</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 后备处理
 请求时间过长，调用备选的方法，
 ```
  @HystrixCommand(fallbackMethod = "authInfoFallback")
@@ -242,7 +214,7 @@ public class ConfigServerApplication { }
     }
 ```
 
-### <a name="20">舱壁模式</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+### 舱壁模式
 定义：将远程调用的资源隔离在自己的线程池中，以控制单个表现不佳的服务，不会是容器崩溃。
 
 Hystrix 使用线程池来委派索引对远程服务的请求。在默认情况下，所有的hystrix命令都将共享同一个线程池来处理请求（默认线程数为10）。
@@ -290,8 +262,8 @@ Hystrix 使用线程池来委派索引对远程服务的请求。在默认情况
 **自定义并发策略**HystrixConcurrencyStrategy，重写线程池创建的方式，提供回调。
 
 
-## <a name="21">OpenFeign</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
-### <a name="22">基本配置</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+## OpenFeign
+### 基本配置
 1. @EnableFeignClients 注解
 2. maven 
   - ```
@@ -321,8 +293,8 @@ public interface OrganizationClient {
 4. 兼容后备及负载均衡功能，可以通过引入Ribbon实现
 
 
-# <a name="23">Spring netflix zuul 网关</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
-## <a name="24">过滤器</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+# Spring netflix zuul 网关
+## 过滤器
 > 代理服务请求，可以自定义filter通过semaphore工具类实现限流
 
 拥有前置过滤器、路由过滤器及后置过滤器，实现方法继承ZuulFilter
@@ -346,7 +318,7 @@ public class TrackingFilter extends ZuulFilter {
 }
 ```
 
-## <a name="25">限流</a><a style="float:right;text-decoration:none;" href="#index">[Top]</a>
+## 限流
 zuul 限流实现：`https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit/blob/master/README.adoc#overview`
 
 引入依赖

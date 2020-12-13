@@ -11,6 +11,3 @@ spring:
       fail-fast: true
       password: ${CONFIG_SERVICE_PASSWORD}
       username: user
-
-server:
-  port: 8099
