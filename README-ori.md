@@ -301,6 +301,10 @@ public interface OrganizationClient {
 1. 前置过滤器：请求到服务网关的第一个过滤器，可以添加一个UUID用于跟踪请求。
 2. 路由过滤器：可以决定是否按比例代理到不同的服务。
 3. 后置过滤器：请求到服务返回响应的过滤器，用于一些请求的后置处理
+> - PRE：这种过滤器在请求被路由之前调用。我们可利用这种过滤器实现身份验证、在集群中选择请求的微服务、记录调试信息等。
+> - ROUTING：这种过滤器将请求路由到微服务。这种过滤器用于构建发送给微服务的请求，并使用 Apache HttpClient 或 Netfilx Ribbon 请求微服务。
+> - POST：这种过滤器在路由到微服务以后执行。这种过滤器可用来为响应添加标准的 HTTP Header、收集统计信息和指标、将响应从微服务发送给客户端等。
+> - ERROR：在其他阶段发生错误时执行该过滤器。 除了默认的过滤器类型，Zuul 还允许我们创建自定义的过滤器类型。例如，我们可以定制一种 STATIC 类型的过滤器，直接在 Zuul 中生成响应，而不将请求转发到后端的微服务。
 
 实现：
 ```
@@ -317,6 +321,17 @@ public class TrackingFilter extends ZuulFilter {
     }
 }
 ```
+
+## 动态路由
+两种刷新方式
+1. 在任意Bean中注入CompositeRouteLocator 或自定义的RouteLocator，然后调用refresh().
+2. 发布RoutesRefreshedEvent事件
+    > Zuul 提供了 ZuulRefreshListener，监听到 RoutesRefreshedEvent 后，会调用ZuulHandlerMapping 的reset()方法，进而调用RouteLocator的refresh()方法。
+
+
+[Zuul 动态路由源码及几种实现方式](https://cloud.tencent.com/developer/article/1460818)
+
+
 
 ## 限流
 zuul 限流实现：`https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit/blob/master/README.adoc#overview`
